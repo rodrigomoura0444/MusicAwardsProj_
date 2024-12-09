@@ -31,10 +31,27 @@ def add_candidate():
 def remove_candidate():
     """Remove an existing candidate list."""
     candidates = read_candidates()
-    id_lista = input("Enter the ID of the list to remove: ")
-    candidates = [c for c in candidates if c["idLista"] != id_lista]
-    write_candidates(candidates)
-    print(f"Candidate list with ID {id_lista} removed successfully!")
+
+    # Exibir lista de candidatos disponíveis
+    if not candidates:
+        print("No candidates available to remove.")
+        return
+
+    print("\nAvailable Candidate Lists:")
+    for c in candidates:
+        print(f"ID: {c['idLista']}, Name: {c['nome']}, Body: {c['orgao']}, Status: {c['status']}")
+
+    # Solicitar o ID da lista a remover
+    id_lista = input("\nEnter the ID of the list to remove: ").strip()
+    
+    # Filtrar a lista para remover o candidato com o ID correspondente
+    filtered_candidates = [c for c in candidates if c["idLista"] != id_lista]
+    
+    if len(filtered_candidates) == len(candidates):
+        print(f"No candidate list found with ID {id_lista}.")
+    else:
+        write_candidates(filtered_candidates)
+        print(f"Candidate list with ID {id_lista} removed successfully!")
 
 def manage_candidates():
     """Candidate management menu."""

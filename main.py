@@ -2,6 +2,7 @@ from candidate import manage_candidates
 from election import manage_elections
 from voting import handle_voting
 from reports import generate_reports
+from eleitores import manage_electors  # Importa o módulo de eleitores
 
 def display_menu():
     print("\n--- Election Management System ---")
@@ -9,12 +10,13 @@ def display_menu():
     print("2. Manage Elections")
     print("3. Voting")
     print("4. Generate Reports")
-    print("5. Exit")
+    print("5. Manage Electors")  # Adiciona a opção para gerenciar eleitores
+    print("6. Exit")
 
 def main():
     while True:
         display_menu()
-        choice = input("Select an option (1-5): ").strip()
+        choice = input("Select an option (1-6): ").strip()  # Atualiza para 6 opções
         if choice == "1":
             manage_candidates()
         elif choice == "2":
@@ -24,6 +26,8 @@ def main():
         elif choice == "4":
             generate_reports()
         elif choice == "5":
+            manage_electors()  # Chama a função de gerenciar eleitores
+        elif choice == "6":
             print("Exiting... Goodbye!")
             break
         else:
