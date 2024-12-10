@@ -1,88 +1,87 @@
 import csv
 import random
 
-# Arquivo CSVs
-LISTAS_FILE = "data/listas.csv"
-VOTOS_FILE = "data/votos.csv"
+LISTAS_FILE = "listas.csv"
+VOTOS_FILE = "votos.csv"
 
-def ler_listas():
-    """Ler as listas válidas a partir do arquivo listas.csv."""
-    listas_validas = {}
+def read_lists():
+    """Read valid lists from the file listas.csv."""
+    valid_lists = {}
     with open(LISTAS_FILE, mode="r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            listas_validas[int(row["idLista"])] = row["nome"]
-    return listas_validas
+            valid_lists[int(row["idLista"])] = row["nome"]
+    return valid_lists
 
-def registrar_voto(votos):
-    """Registrar o voto se for válido."""
-    listas = ler_listas()
-    print("\n--- Listas Disponíveis ---")
-    for id_lista, nome in listas.items():
-        print(f"ID: {id_lista} - Nome: {nome}")
+def register_vote(votes):
+    """Register the vote if it is valid."""
+    lists = read_lists()
+    print("\n--- Available Lists ---")
+    for id_list, name in lists.items():
+        print(f"ID: {id_list} - Name: {name}")
 
     try:
-        id_lista = int(input("Digite o ID da lista para votar: ").strip())
-        if id_lista in listas:
-            # Gerar uma chave aleatória para o voto
+        id_list = int(input("Enter the ID of the list to vote for: ").strip())
+        if id_list in lists:
+            # Generate a random key for the vote
             key = ''.join(random.choices("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=6))
-            votos.append({"key": key, "voto": id_lista})
-            salvar_votos(votos)
-            print(f"Voto registrado com sucesso! (Chave: {key})")
+            votes.append({"key": key, "vote": id_list})
+            save_votes(votes)
+            print(f"Vote successfully registered! (Key: {key})")
         else:
-            print("ID inválido! O voto não foi registrado.")
+            print("Invalid ID! The vote was not registered.")
     except ValueError:
-        print("Entrada inválida! O voto não foi registrado.")
+        print("Invalid input! The vote was not registered.")
 
-def salvar_votos(votos):
-    """Salvar os votos no arquivo votos.csv."""
+def save_votes(votes):
+    """Save the votes to the file votos.csv."""
     with open(VOTOS_FILE, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["key", "voto"])
+        writer = csv.DictWriter(file, fieldnames=["key", "vote"])
         writer.writeheader()
-        for voto in votos:
-            writer.writerow(voto)
+        for vote in votes:
+            writer.writerow(vote)
 
-def carregar_votos():
-    """Carregar votos do arquivo votos.csv."""
-    votos = []
+def load_votes():
+    """Load votes from the file votos.csv."""
+    votes = []
     try:
         with open(VOTOS_FILE, mode="r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                votos.append({"key": row["key"], "voto": int(row["voto"])})
+                votes.append({"key": row["key"], "vote": int(row["vote"])})
     except FileNotFoundError:
-        pass  # Arquivo ainda não existe
-    return votos
+        pass  # File does not exist yet
+    return votes
 
-def exibir_votos(votos):
-    """Exibir todos os votos registrados."""
-    if not votos:
-        print("Nenhum voto registrado ainda.")
+def display_votes(votes):
+    """Display all registered votes."""
+    if not votes:
+        print("No votes have been registered yet.")
         return
 
-    print("\n--- Votos Registrados ---")
-    for voto in votos:
-        print(f"Chave: {voto['key']} - ID da Lista: {voto['voto']}")
+    print("\n--- Registered Votes ---")
+    for vote in votes:
+        print(f"Key: {vote['key']} - List ID: {vote['vote']}")
 
 def handle_voting():
-    votos = carregar_votos()
+    votes = load_votes()
 
     while True:
-        print("\n--- Menu de Votação ---")
-        print("1. Registrar um voto")
-        print("2. Exibir votos registrados")
-        print("3. Sair")
+        print("\n--- Voting Menu ---")
+        print("1. Register a vote")
+        print("2. Display registered votes")
+        print("3. Exit")
 
-        escolha = input("Escolha uma opção (1-3): ").strip()
-        if escolha == "1":
-            registrar_voto(votos)
-        elif escolha == "2":
-            exibir_votos(votos)
-        elif escolha == "3":
-            print("Encerrando o programa.")
+        choice = input("Choose an option (1-3): ").strip()
+        if choice == "1":
+            register_vote(votes)
+        elif choice == "2":
+            display_votes(votes)
+        elif choice == "3":
+            print("Exiting the program.")
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Invalid option. Please try again.")
 
 if __name__ == "__main__":
-    main()
+    handle_voting()
