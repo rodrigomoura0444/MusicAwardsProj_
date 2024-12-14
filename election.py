@@ -1,9 +1,9 @@
 import csv
 
-ELECTION_FILE = "data/eleicao.csv"
+ELECTION_FILE = "data/eleicao.csv"  """caminho onde vai armazenar informacoesw sobre as eleicoes"""
 
 def create_election():
-    """Create a new election."""
+    """Create a new election."""    
     elections = read_elections()
     id_election = len(elections) + 1
     data_inicio = input("Enter the start date (YYYY-MM-DD): ").strip()
@@ -26,7 +26,7 @@ def read_elections():
     with open(ELECTION_FILE, mode="r") as file:
         reader = csv.DictReader(file)
         elections = [row for row in reader]
-    return elections
+   
 
 
 
@@ -56,3 +56,37 @@ def manage_elections():
             break
         else:
             print("Invalid choice. Try again.")
+
+
+"""def manage_elections():
+    
+    while True:
+        print("\n--- Manage Elections ---")
+        print("1. Create Election")
+        print("2. View Elections")
+        print("3. Back to Main Menu")
+        choice = input("Select an option (1-3): ").strip()
+        
+        # Primeiro caso
+        if choice == "1":
+            create_election()
+            continue  # Volta ao início do loop
+        
+        # Segundo caso
+        if choice == "2":
+            elections = read_elections()
+            for e in elections:
+                print(f"ID: {e['idEleicao']}, Start: {e['dataInicio']}, End: {e['dataFim']}, Method: {e['metodo']}, Rules: {e['regras']}")
+            continue  # Volta ao início do loop
+        
+        # Terceiro caso
+        if choice == "3":
+            break  # Sai do loop
+        
+        # Opção inválida
+        if choice not in ["1", "2", "3"]:
+            print("Invalid choice. Try again.")
+            continue
+"""
+
+

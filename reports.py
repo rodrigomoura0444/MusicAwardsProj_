@@ -10,7 +10,7 @@ def load_votes():
         with open(VOTES_FILE, mode="r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                votes.append(row["voto"])  # Assuming "voto" contains the candidate ID
+                votes.append(row["vote"])  # Assuming "voto" contains the candidate ID
     except FileNotFoundError:
         print("Votes file not found.")
     return votes
